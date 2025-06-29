@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>اللعبة المفصلة</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+      color: white;
+      font-family: 'Courier New', Courier, monospace;
+      text-align: center;
+    }
+    h1 {
+      font-size: 40px;
+      animation: flicker 0.2s infinite alternate;
+    }
+    button {
+      padding: 20px;
+      font-size: 20px;
+      background: red;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+    .crazy-box {
+      width: 100px;
+      height: 100px;
+      background: lime;
+      position: absolute;
+      animation: moveBox 0.5s infinite linear;
+    }
+
+    @keyframes flicker {
+      from { opacity: 1; }
+      to { opacity: 0.2; }
+    }
+
+    @keyframes moveBox {
+      0% { transform: translate(0, 0); }
+      25% { transform: translate(500px, 100px) rotate(45deg); }
+      50% { transform: translate(200px, 400px) rotate(180deg); }
+      75% { transform: translate(-300px, 200px) rotate(270deg); }
+      100% { transform: translate(0, 0) rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+<h1>😵 اللعبة المفصّلة 😵</h1>
+<button onclick="startMadness()">اضغطني لو تقدر!</button>
+
+<script>
+  function startMadness() {
+    // تشغيل الصوت "GET OUT!"
+    const utter = new SpeechSynthesisUtterance("GET OUT!");
+    utter.pitch = 0.5;
+    utter.rate = 0.8;
+    utter.volume = 1;
+    speechSynthesis.speak(utter);
+
+    // مؤثرات الحركة والفوضى
+    for (let i = 0; i < 30; i++) {
+      let box = document.createElement('div');
+      box.className = 'crazy-box';
+      box.style.top = Math.random() * window.innerHeight + 'px';
+      box.style.left = Math.random() * window.innerWidth + 'px';
+      box.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+      document.body.appendChild(box);
+
+      let beep = new AudioContext();
+      let oscillator = beep.createOscillator();
+      oscillator.connect(beep.destination);
+      oscillator.frequency.value = 200 + Math.random() * 1000;
+      oscillator.start();
+      oscillator.stop(beep.currentTime + 0.1);
+    }
+
+    document.body.style.background = `hsl(${Math.random() * 360}, 100%, 10%)`;
+  }
+</script>
+
+</body>
+</html>
